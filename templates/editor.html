@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebForge Editor</title>
+    <link rel="stylesheet" href="/static/css/editor.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="brand" onclick="window.location.href='/'" style="cursor:pointer;" title="Back to Dashboard">WebForge</div>
+        <div class="project-name" id="project-name">Project Name</div>
+        <div class="top-controls">
+            <select id="page-selector" onchange="switchPage(this.value)"></select>
+            <button onclick="openPagesModal()">Pages</button>
+            <button onclick="openSettingsModal()">Settings</button>
+            <div class="view-toggles">
+                <button onclick="setPreviewMode('desktop')">Desktop</button>
+                <button onclick="setPreviewMode('mobile')">Mobile</button>
+                <button onclick="togglePreview()" id="preview-btn">Preview</button>
+            </div>
+            <span id="save-status"></span>
+            <button class="export-btn" onclick="exportProject()">Export ZIP</button>
+        </div>
+    </div>
+    
+    <div class="workspace" id="workspace">
+        <div class="sidebar" id="sidebar">
+            <h3>Components</h3>
+            <div id="components-list"></div>
+        </div>
+        
+        <div class="canvas-area">
+            <div class="canvas-wrapper" id="canvas-wrapper">
+                <div id="canvas" class="wb-dropzone" data-slot="main"></div>
+            </div>
+        </div>
+        
+        <div class="properties-panel" id="properties-panel">
+            <h3>Properties</h3>
+            <div id="properties-content">
+                <div class="empty-props">Select a component to edit its properties.</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modals -->
+    <div id="pages-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Manage Pages</h2>
+            <ul id="pages-list" style="list-style:none; padding:0; margin-bottom: 20px;"></ul>
+            <div style="display:flex; gap:8px; margin-bottom: 20px;">
+                <input type="text" id="new-page-name" placeholder="Page Name" style="flex:1; padding:6px; border:1px solid #ccc; border-radius:4px;">
+                <button onclick="addPage()">Add Page</button>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeModal('pages-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Website Settings</h2>
+            <div class="prop-group"><label>Website Name</label><input type="text" id="set-name"></div>
+            <div class="prop-group"><label>Site Title</label><input type="text" id="set-title"></div>
+            <div class="prop-group"><label>Primary Color</label><input type="color" id="set-primary"></div>
+            <div class="prop-group"><label>Background Color</label><input type="color" id="set-bg"></div>
+            <div class="prop-group"><label>Text Color</label><input type="color" id="set-text"></div>
+            <div class="prop-group">
+                <label>Font Family</label>
+                <select id="set-font">
+                    <option value="system-ui, -apple-system, sans-serif">System UI</option>
+                    <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI</option>
+                    <option value="'Georgia', serif">Georgia</option>
+                    <option value="'Courier New', Courier, monospace">Monospace</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeModal('settings-modal')">Cancel</button>
+                <button class="export-btn" onclick="saveSettings()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      const projectId = "{{ project_id }}";
+    </script>
+    <script src="/static/js/editor.js"></script>
+</body>
+</html>
